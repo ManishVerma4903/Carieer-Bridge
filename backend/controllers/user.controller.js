@@ -50,16 +50,16 @@ export const register = async (req,res) =>{
                      success: false});
             }
             
-            const user = await User.findOne({email});
+            let user = await User.findOne({email});
             if(!user){
-                return res.status(404).json({
+                return res.status(400).json({
                     message: "Incorrect email or password",
                      success: false});
             }
 
 
-            const isPassword = await bcrypt.compare(password, user.password);
-            if(!isPassword){
+            const isPasswordMatch = await bcrypt.compare(password, user.password);
+            if(!isPasswordMatch){
                 return res.status(404).json({
                     message: "Incorrect email or password",
                      success: false});
@@ -72,16 +72,20 @@ export const register = async (req,res) =>{
                 return res.status(403).json({
                     message: "account does not exist with current role" ,
                      success: false});
-            }
+            if(role !== user.role){
+                return res.status(400).json({
+                    message: "Account does not exist with current role" ,
+                     success: false})
+            };
 
             const tokenData = {
-                userId : User._id,
+                userId : user._id,
             }
-            const token = jwt.sign(tokenData, process.env.SECRET_KEY, {expiresIn: '1d'});
+            const token =  jwt.sign(tokenData, process.env.SECRET_KEY, {expiresIn: '1d'});
 
 
             user = {
-                _is : user.id ,
+                _id : user._id ,
                 fullname : user.fullname,
                 email : user.email,
                 phoneNumber : user.phoneNumber,
@@ -89,14 +93,11 @@ export const register = async (req,res) =>{
                 profile : user.profile,
             }
 
-            return res.status(200).cookie("token", token,{maxAge: 1*21*60*60*1000,httpsOnly : true, sameSite:'strict'}).json({
+            return res.status(200).cookie("token", token,{maxAge: 1*24*60*60*1000,httpsOnly : true, sameSite:'strict'}).json({
                 message: "Logged in successfully",
-                success: true,
-            
+                user,
+                success: true            
             });
-
-
-
 
 
     }catch(error){
@@ -111,7 +112,6 @@ export const register = async (req,res) =>{
 
 export const logout = async(req,res) =>{
     try {
-        res.clearCookie("token",{path:'/'});
         return res.status(200).cookie("token","",{maxAge:0}).json({
             message: "Logged out successfully",
             success: true,
@@ -124,24 +124,27 @@ export const logout = async(req,res) =>{
 
  // for update user's profile
 
- export const update = async(req,res) =>{
+ export const updateProfile = async (req,res) =>{
     try {
         const {fullname,email,phoneNumber,bio,skills} = req.body;
-        if(!fullname || !email || !phoneNumber || !bio || !skills){
-            return res.status(400).json({
-                message: "something is missing",
-                 success: false});
-        } 
-        const skillsArray = skills.split(','); 
-        const userId = req.id;
-        let user = await User.findById(UserId); 
+        let skillsArray ;
+        if(skills) {
+           skillsArray =  skills.split(","); 
+        }
+        const userId = req.id; //middleware authentication
+        let user = await User.findById(userId); 
         if(!user){
             return res.status(400).json({
-                message: "user not found",
-                 success: false});   
+                message: "user not found ",
+                success: false});   
         }
 
         //updating data
+        if(fullname) user.fullname = fullname;
+        if(email) user.email = email;
+        if(phoneNumber) user.phoneNumber = phoneNumber;
+        if(bio)  user.bio = bio;
+        if(skills) user.skills = skillsArray;
 
         user.fullname = fullname;
         user.email = email;
@@ -154,23 +157,24 @@ export const logout = async(req,res) =>{
 
         await user.save();
         user = {
-            _is : user.id ,
+            _id : user._id ,
             fullname : user.fullname,
             email : user.email,
             phoneNumber : user.phoneNumber,
             role : user.role,
             profile : user.profile,
-        }
+        };
 
         return res.status(200).json({
             message: "User profile updated successfully",
-            success: true,
-            user
-        })
+            user,
+            success: true
+        });
 
 
     } catch (error) {
      console.log(error);
+     
         
     }
  }
