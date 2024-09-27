@@ -9,6 +9,7 @@ const isAuthenticated = async (req, res,next) => {
                 success : false
             })
          }
+
          const decode =  jwt.verify(token, process.env.SECRET_KEY);
          if(!decode){
             return res.status(401).json({
@@ -17,6 +18,7 @@ const isAuthenticated = async (req, res,next) => {
             })
          };
 
+         
          req.id = decode.userId;
          next();
 

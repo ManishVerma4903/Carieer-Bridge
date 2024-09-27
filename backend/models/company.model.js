@@ -4,6 +4,7 @@ const companySchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
+        unique:true    // change himanshi 
     },
     discription:{
         type:String,
@@ -27,4 +28,4 @@ const companySchema = new mongoose.Schema({
     },
 },{timestamp:true});
 
-export const mongoose.model('Company', companySchema);
+export const Company = mongoose.model("company",companySchema);
