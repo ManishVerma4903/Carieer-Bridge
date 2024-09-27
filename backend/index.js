@@ -3,9 +3,9 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './utils/db.js';
-import userRoute from './routes/user.rout.js'
-import companyroute from "./routes/company.routes.js";
-import jobroute from "./routes/job.routes.js";
+import userRoute from './routes/user.route.js'
+import companyRoutes from './routes/company.route.js'
+import jobRoutes from "./routes/job.route.js"
 dotenv.config({});
 
 const app = express();

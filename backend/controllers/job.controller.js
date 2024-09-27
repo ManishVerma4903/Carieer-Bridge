@@ -62,7 +62,7 @@ try {
 }
 }
 // students
-export const getjobbyId = async(req res)=> {
+export const getjobbyId = async(req, res)=> {
     try {
         const jobId = req.parans.id;
         const job = await job.findById(jobId);
