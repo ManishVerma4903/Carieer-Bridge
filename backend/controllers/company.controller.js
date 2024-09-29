@@ -34,8 +34,8 @@ export const registerCompany = async(req.res) => {
 }
 export  const getCompany= async(req,res)=> {
     try{
-        const userId=req.id; //loged in user id
-        const comapnies= await company.find({user Id});
+        const userId=req.id; //logged in user id
+        const comapnies= await company.find({userId});
         if(!companies){
             return res.status(404).json({
                 message:"companies not found.",
