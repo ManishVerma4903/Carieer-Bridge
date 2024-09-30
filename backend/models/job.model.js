@@ -1,11 +1,11 @@
 import mongoose, { Types } from "mongoose";
 
-const jobScheme = new mongoose.Scheme({
+const jobScheme = new mongoose.Schema({
     title:{
         type:String,
         required:true
     },
-    discription:{
+    description:{
         type:String,
         required:true
     },
@@ -38,7 +38,7 @@ const jobScheme = new mongoose.Scheme({
         ref:'Company',
         required:true,
     },
-    createdBy:{
+    created_by:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'User',
         required:true,

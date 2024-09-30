@@ -72,13 +72,7 @@ export const login = async (req, res) => {
         }
 
 
-        //check role is correct or not
 
-        // if (role != user.role) {
-        //     return res.status(403).json({
-        //         message: "account does not exist with current role",
-        //         success: false
-        //     });
         if (role !== user.role) {
             return res.status(400).json({
                 message: "Account does not exist with current role",
@@ -157,11 +151,7 @@ export const updateProfile = async (req, res) => {
         if (bio) user.bio = bio;
         if (skills) user.skills = skillsArray;
 
-        user.fullname = fullname;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
-        user.bio = bio;
-        user.skills = skillsArray;
+      
 
         //resume
 

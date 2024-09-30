@@ -28,4 +28,4 @@ const companySchema = new mongoose.Schema({
     },
 },{timestamp:true});
 
-export const Company = mongoose.model("company",companySchema);
+export const Company = mongoose.model("Company",companySchema);

@@ -1,12 +1,11 @@
-import{Company} from "../models/company.model.js";
+import { Company } from "../models/company.model.js";
 
-
-export const registerCompany = async(req.res) => {
+export const registerCompany = async(req,res) => {
    try{
         const{companyName} = req.body;
          if(!companyName){
            return res.status(400).json({
-        message:"Company name is required.",
+        message:"Company name is required.", 
         success:false
     });
 
@@ -14,13 +13,13 @@ export const registerCompany = async(req.res) => {
     let company =await Company.findOne({name:companyName});
     if(company){
         return res.status(400).json({
-            message:"you cant register same company.",
+            message:"you can't register same company.",
             success:false
         })
     };
     company= await Company.create({
         name:companyName,
-        userId: Request.id
+        userId: req.id
     });
     return res.status(201).json({
         message:"company registered successfully.",
@@ -35,7 +34,7 @@ export const registerCompany = async(req.res) => {
 export  const getCompany= async(req,res)=> {
     try{
         const userId=req.id; //logged in user id
-        const comapnies= await company.find({userId});
+        const companies= await Company.find({userId});
         if(!companies){
             return res.status(404).json({
                 message:"companies not found.",
@@ -52,8 +51,8 @@ export  const getCompany= async(req,res)=> {
 }
 export const getCompanyById=async (req,res)=>{
     try {
-        const companyId=req.parans.id;
-        const company= await company.findById(companyId);
+        const companyId=req.params.id;
+        const company= await Company.findById(companyId);
         if(!company){
             return res.status(404).json({
                 message:"Company not found.",
@@ -70,14 +69,14 @@ export const getCompanyById=async (req,res)=>{
         
     }
 }
-export const updatecompany= async(req, res)=>{
+export const updateCompany= async(req, res)=>{
     try{
         const{ name,description,website,location } = req.body;
         const file=req.file;
         // idhar  cloudnary  aayega
         
         const updatedata={ name,description,website,location };
-        const company=await Company.findByIdAndUpdate(req.parans.id, updatedata, {new:true});
+        const company=await Company.findByIdAndUpdate(req.params.id, updatedata, {new:true});
         if(!company){
             return res.status(400).json({
                 message: "comapny not found.",
