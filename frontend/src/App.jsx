@@ -20,9 +20,13 @@ const appRouter = createBrowserRouter([
   },
 
 ])
+
+// header('Access-Control-Allow-Origin : *');
+// header('Access-Control-Allow-Methods : POST, GET, PUT, DELETE, OPTIONS');
+// header('Access-Control-Allow-Headers : Content-Type, Authorization, Origin, X-Auth-Token');
 function App() {
   return (
-    <div className='w-[100vw] h-[100vh] bg-[#f1f1f1]'>
+    <div className='w-[100vw] h-[100vh] bg-[#f1f1f1] overflow-hidden'>
       <RouterProvider router={appRouter}/>
     </div>
   )
