@@ -26,7 +26,7 @@ const appRouter = createBrowserRouter([
 // header('Access-Control-Allow-Headers : Content-Type, Authorization, Origin, X-Auth-Token');
 function App() {
   return (
-    <div className='w-[100vw] h-[100vh] bg-[#f1f1f1] overflow-hidden'>
+    <div className='w-[100v  bg-[#f1f1f1] '>
       <RouterProvider router={appRouter}/>
     </div>
   )

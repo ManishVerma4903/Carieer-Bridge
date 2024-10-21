@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+
 function NavBar() {
   const user = false;
   const [open, setOpen] = useState(false)
   return (
     <div className="w-full h-20 flex items-center justify-between px-24 py-2 relative">
-      <h1 className="text-3xl font-semibold font-[Inter]">CarrerBridge</h1>
+      <h1 className="text-3xl font-semibold font-[Inter]"><Link to='/'>CarrerBridge</Link></h1>
       <div className="navlinks">
         <ul className="flex gap-6 font-bold text-xl  items-center">
-          <li>Home</li>
+          <Link to='/'> Home</Link>
           <li>Jobs</li>
           <li>Browse</li>
         </ul>

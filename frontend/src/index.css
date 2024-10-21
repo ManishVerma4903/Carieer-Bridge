@@ -2,3 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.slick-prev:before{
+    content: "🡠";
+    color:black;
+}
+.slick-next:before{
+    content: "🡢";
+    color:black;
+}
+
+.slick-slide>div{
+    margin-left: 5px;
+    width:80%;
+}
+
+
+/* react toastify */
+
+.toastBody{
+    font-family: "Atlas Grotesk Web", Arial, Helvetica, sans-serif;
+  color: #10171D; 
+  font-size: 1 rem ;
+}

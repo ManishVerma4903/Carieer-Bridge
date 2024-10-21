@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import NavBar from "../shared/NavBar";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 import { USER_API_END_POINT } from "../../utils/constant";
+import { setLoading } from "../../redux/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 function Signup() {
   const [input, setInput] = useState({
@@ -14,7 +17,11 @@ function Signup() {
     file: "",
   });
 
+  const loading = useSelector((store) => store.auth);
+
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -28,34 +35,54 @@ function Signup() {
     const formData = new FormData();
     formData.append("fullname", input.fullname);
     formData.append("email", input.email);
-    formData.append("password", input.password)
+    formData.append("password", input.password);
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("role", input.role);
-    if(input.file) {
+    if (input.file) {
       formData.append("file", input.file);
-      
     }
 
     try {
-      const res = await axios.post(`${USER_API_END_POINT}/register`,formData,{
-        headers:{
-          "Content-Type": "multipart/form-data"
+      dispatch(setLoading(true));
+
+      const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-        withCredentials:true,
-        
-      });    
+        withCredentials: true,
+      });
       if (res.data.success) {
         navigate("/login");
+        toast(res.data.message, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     } catch (error) {
-
-      console.log(error);      
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } finally {
+      dispatch(setLoading(false));
     }
-    
   };
 
   return (
-    <div className="w-full h-full  relative">
+    <div className="h-[100vh] overflow-hidden cursor-default  relative">
       <img
         className="h-full w-[48%] absolute  right-0"
         src="./Images/SignupImg.png"
@@ -68,7 +95,10 @@ function Signup() {
           <h1 className="font-bold text-3xl">Sign Up to CarrerBridge</h1>
         </div>
 
-        <form className="flex mt-10 flex-col gap-6 h-full" onSubmit={submitHandler}>
+        <form
+          className="flex mt-10 flex-col gap-6 h-full"
+          onSubmit={submitHandler}
+        >
           <input
             className="p-3 rounded-lg bg-[#D9D9D9] border border-[#6B6B6B] text-[#595656]  focus:font-semibold focus:text-black "
             type="text"
@@ -134,13 +164,19 @@ function Signup() {
               />
             </div>
           </div>
-
-          <button
-            type="submit"
-            className="w-full bg-[#1937D6] p-2 text-xl rounded-lg text-white font-bold text-center"
-          >
-            Sign Up
-          </button>
+          {loading ? (
+            <button
+              type="submit"
+              className="w-full bg-[#1937D6] p-2 text-xl rounded-lg text-white font-bold text-center"
+            >
+              Sign Up
+            </button>
+          ) : (
+            <button className=" mx-auto cursor-default   py-3 text-white  text-center">
+              {" "}
+              <LuLoader2 className="mr-2 h-10 w-10 animate-spin text-[#1937D6] " />{" "}
+            </button>
+          )}
           <h1>
             Already have an account?
             <Link className="text-blue-700" to="/login">
