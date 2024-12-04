@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
-
 function NavBar() {
-  const user = false;
+
+  const {user} = useSelector(store=>store.auth)
+
   const [open, setOpen] = useState(false)
   return (
     <div className="w-full h-20 flex items-center justify-between px-24 py-2 relative">
@@ -40,7 +41,7 @@ function NavBar() {
             <div className="mt-1 px-2">
             <div className="flex items-center gap-5">
             <i className="ri-user-3-line  text-lg "/>
-            <h5  className="text-xs font-semibold hover:cursor-pointer hover:underline">View Profile</h5>
+            <h5  className="text-xs font-semibold hover:cursor-pointer hover:underline"><Link to="/profile">View Profile</Link></h5>
             </div>
             <div className="flex items-center gap-5">
             <i className="ri-logout-box-r-line"/>

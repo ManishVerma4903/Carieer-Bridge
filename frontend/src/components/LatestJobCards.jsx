@@ -14,7 +14,7 @@ function LatestJobCards() {
           <img
             className="w-10 rounded-full"
             src="https://imgs.search.brave.com/l9Rrf5T0RLHuNWj3O75clJZLa2_8Men-m0z6c3vcnw4/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC93cDc3NzEx/OTMuanBn"
-            alt=""
+            alt=""  
           />
         </div>
         <p className="w-[80%] text-xs mb-4">Need a UI/XI Designer with knowledge of

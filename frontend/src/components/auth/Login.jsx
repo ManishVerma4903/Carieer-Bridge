@@ -4,7 +4,7 @@ import { USER_API_END_POINT } from "../../utils/constant";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "../../redux/authSlice";
+import { setLoading, setUser } from "../../redux/authSlice";
 import { LuLoader2 } from "react-icons/lu";
 import { toast } from "react-toastify";
 
@@ -36,6 +36,7 @@ function Login() {
       });
 
       if (res.data.success) {
+        dispatch(setUser(res.data.user));
         navigate("/");
               
       }

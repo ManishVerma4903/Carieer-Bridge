@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
 import Home from './components/Home'
+import Profile from './components/Profile'
 
 const appRouter = createBrowserRouter([
   {
@@ -18,12 +19,21 @@ const appRouter = createBrowserRouter([
     path:'/signup',
     element :<Signup/>
   },
+  // {
+  //   path:'/jobs',
+  //   element :<Jobs/>
+  // },
+  // {
+  //   path:'/browse',
+  //   element :<Browse/>
+  // },
+  {
+    path:'/profile',
+    element :<Profile/>
+  },
 
 ])
 
-// header('Access-Control-Allow-Origin : *');
-// header('Access-Control-Allow-Methods : POST, GET, PUT, DELETE, OPTIONS');
-// header('Access-Control-Allow-Headers : Content-Type, Authorization, Origin, X-Auth-Token');
 function App() {
   return (
     <div className='w-[100v  bg-[#f1f1f1] '>
